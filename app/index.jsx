@@ -1,6 +1,17 @@
 import { Text, View, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { router } from "expo-router";
+import { useEffect } from "react";
+
 export default function SplashScreen(){
+    useEffect(() => {
+    const timer = setTimeout(() => {
+      router.replace("/welcome"); // navigates after 2.5s
+    }, 2500);
+
+    return () => clearTimeout(timer); // cleanup if component unmounts early
+  }, []);
+  
     return(
         <LinearGradient
         colors={["#70B9BE", "#4A8E93"]}
@@ -47,7 +58,7 @@ bigR:{
 },
 
   badgeText: {
-    color: "#70B9BE",
+    color: "#042628",
     fontSize: 24,
     fontWeight: "700",
   },
