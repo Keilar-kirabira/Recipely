@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingHorizontal: 24,
-    paddingTop: 20,
+    paddingTop: 90,
     paddingBottom: 40,
   },
   badgeRow: {

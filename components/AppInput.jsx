@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
-    fontWeight: "600",
+    fontFamily: "Poppins_600SemiBold",
     color: "#042628",
     marginBottom: 6,
   },
@@ -55,5 +55,6 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     fontSize: 15,
     color: "#042628",
+    fontFamily: "Poppins_400Regular",
   },
 });

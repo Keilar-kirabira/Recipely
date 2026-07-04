@@ -8,20 +8,23 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { router } from "expo-router";
+import CountryPicker from "react-native-country-picker-modal";
 import LogoBadge from "../components/LogoBadge";
 import AppButton from "../components/AppButton";
 import AppInput from "../components/AppInput";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function SignUp() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [country, setCountry] = useState("");
+  const [country, setCountry] = useState(null);
+  const [countryCode, setCountryCode] = useState(null);
+  const [showPicker, setShowPicker] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSignup = () => {
-    // this is where you'll later call Supabase/Firebase signUp()
     console.log({ firstName, lastName, email, country, password });
   };
 
@@ -37,7 +40,6 @@ export default function SignUp() {
 
         <Text style={styles.heading}>Create Account</Text>
 
-        {/* First + Last name on one row */}
         <View style={styles.row}>
           <View style={styles.halfInput}>
             <AppInput
@@ -66,12 +68,34 @@ export default function SignUp() {
           onChangeText={setEmail}
         />
 
-        <AppInput
-          label="Country"
-          placeholder="Enter your country"
-          value={country}
-          onChangeText={setCountry}
-        />
+       <View style={styles.countryWrapper}>
+  <Text style={styles.label}>Country</Text>
+
+  <TouchableOpacity
+    style={styles.countryRow}
+    onPress={() => setShowPicker(true)}
+    activeOpacity={0.7}
+  >
+    <View style={{ flex: 1 }}>
+      <CountryPicker
+        countryCode={countryCode || "UG"}
+        withFilter
+        withFlag
+        withCountryNameButton
+        withAlphaFilter
+        visible={showPicker}
+        onSelect={(selectedCountry) => {
+          setCountryCode(selectedCountry.cca2);
+          setCountry(selectedCountry.name);
+          setShowPicker(false);
+        }}
+        onClose={() => setShowPicker(false)}
+      />
+    </View>
+
+    <Ionicons name="chevron-down" size={18} color="#666" />
+  </TouchableOpacity>
+</View>
 
         <AppInput
           label="Password"
@@ -99,11 +123,11 @@ export default function SignUp() {
           <View style={styles.line} />
         </View>
 
-        <AppButton 
-          title="Continue with Google" 
-          onPress={() => {}} 
-          variant="outline" 
-          icon={require("../assets/images/google.png")} 
+        <AppButton
+          title="Continue with Google"
+          onPress={() => {}}
+          variant="outline"
+          icon={require("../assets/images/google.png")}
         />
 
         <TouchableOpacity
@@ -146,14 +170,14 @@ const styles = StyleSheet.create({
   },
   orText: {
     marginHorizontal: 10,
-    fontWeight: "700",
+    fontFamily: "Poppins_700Bold",
     color: "#042628",
   },
   heading: {
     fontSize: 20,
-    fontWeight: "800",
+   fontFamily: "Poppins_800ExtraBold", 
     color: "#042628",
-    textAlign: "center",  // This centers the heading
+    textAlign: "center",
     marginBottom: 16,
   },
   row: {
@@ -163,15 +187,37 @@ const styles = StyleSheet.create({
   halfInput: {
     flex: 1,
   },
+  label: {
+    fontSize: 14,
+    fontFamily: "Poppins_600SemiBold",
+    color: "#042628",
+    marginBottom: 6,
+  },
+  countryWrapper: {
+    width: "100%",
+    marginBottom: 16,
+  },
+  countryRow: {
+     flexDirection: "row",
+     alignItems: "center",
+    backgroundColor: "#fff",
+      justifyContent: "space-between",
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderWidth: 1,
+    borderColor: "#E0E0E0",
+  },
   footerRow: {
     marginTop: 20,
     alignItems: "center",
   },
   footerText: {
     color: "#042628",
+    fontFamily: "Poppins_400Regular",
   },
   footerLink: {
-    fontWeight: "800",
+    fontFamily: "Poppins_800ExtraBold", 
     textDecorationLine: "underline",
   },
 });

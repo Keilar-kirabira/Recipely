@@ -101,16 +101,16 @@ export default function SignIn() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff", // Changed to white to match SignUp
+    backgroundColor: "#fff", 
   },
   scrollContent: {
     paddingHorizontal: 24,
-    paddingTop: 20, // Reduced to match SignUp
+    paddingTop: 80, 
     paddingBottom: 40,
   },
   badgeRow: {
     alignItems: "center",
-    marginBottom: 16, // Reduced to match SignUp
+    marginBottom: 16, 
   },
   dividerRow: {
     flexDirection: "row",
@@ -125,14 +125,14 @@ const styles = StyleSheet.create({
   },
   orText: {
     marginHorizontal: 10,
-    fontWeight: "700",
+     fontFamily: "Poppins_700Bold",
     color: "#042628",
   },
   heading: {
     fontSize: 20,
-    fontWeight: "800",
+     fontFamily: "Poppins_800ExtraBold",
     color: "#042628",
-    textAlign: "center", // Centered to match SignUp
+    textAlign: "center",
     marginBottom: 16,
   },
   row: {
@@ -155,11 +155,12 @@ const styles = StyleSheet.create({
   rememberMeText: {
     color: "#042628",
     fontSize: 14,
+    fontFamily: "Poppins_400Regular", 
   },
   forgotPassword: {
     color: "#042628",
     fontSize: 14,
-    fontWeight: "600",
+    fontFamily: "Poppins_600SemiBold",
     textDecorationLine: "underline",
   },
   footerRow: {
@@ -168,9 +169,10 @@ const styles = StyleSheet.create({
   },
   footerText: {
     color: "#042628",
+    fontFamily: "Poppins_400Regular",
   },
   footerLink: {
-    fontWeight: "800",
+    fontFamily: "Poppins_800ExtraBold", 
     textDecorationLine: "underline",
   },
 });
