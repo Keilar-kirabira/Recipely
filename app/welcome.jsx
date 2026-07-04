@@ -1,5 +1,6 @@
 import { Text, View, StyleSheet, ImageBackground, TouchableOpacity } from "react-native";
 import { router } from "expo-router";
+import LogoBadge from "../components/LogoBadge";
 
 export default function Welcome() {
   return (
@@ -10,11 +11,7 @@ export default function Welcome() {
     >
       <View style={styles.overlay}>
         <View style={styles.topBadgeRow}>
-          <View style={styles.badge}>
-            <Text style={styles.badgeText}>
-              <Text style={styles.bigR}>R</Text>ecipely
-            </Text>
-          </View>
+          <LogoBadge size={110} color="#fff" />
         </View>
 
         <View style={styles.bottomSection}>
@@ -46,40 +43,17 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    justifyContent: "space-between", 
+    justifyContent: "space-between",
     backgroundColor: "rgba(0,0,0,0.15)",
   },
   topBadgeRow: {
     alignItems: "center",
     paddingTop: 80,
   },
-  badge: {
-    backgroundColor: "#fff",
-    width: 120,
-    height: 120,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 9999,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 4,
-  },
-  badgeText: {
-    color: "#042628",
-    fontSize: 16,
-    fontWeight: "700",
-  },
-  bigR: {
-    fontSize: 22,
-    fontWeight: "800",
-    color: "#042628",
-  },
   bottomSection: {
     paddingHorizontal: 24,
     paddingBottom: 20,
-    paddingTop: 300,  
+    paddingTop: 300,
     alignItems: "center",
   },
   loginButton: {
