@@ -1,0 +1,8 @@
+...rest is called the rest operator in JavaScript.
+It collects the remaining properties into a single object.
+
+secureTextEntry is a React Native TextInput prop.
+It accepts a boolean (true or false).
+true → hides the typed text (good for passwords).
+false → shows the typed text normally.
+It's commonly paired with state (useState) to implement a Show/Hide Password toggle.

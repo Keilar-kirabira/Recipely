@@ -1,12 +1,23 @@
 import { Text, View, StyleSheet, ImageBackground, TouchableOpacity } from "react-native";
-export default function Welcome(){
-    return(
-        <ImageBackground
-        source={require("../assets/images/Recipe-food.jpeg")}
+import { router } from "expo-router";
+
+export default function Welcome() {
+  return (
+    <ImageBackground
+      source={require("../assets/images/Recipe-food.jpg")}
       style={styles.background}
-      resizeMode="cover">
-        <View style={styles.overlay}>
-          <View  style={styles.bottomSection}>
+      resizeMode="cover"
+    >
+      <View style={styles.overlay}>
+        <View style={styles.topBadgeRow}>
+          <View style={styles.badge}>
+            <Text style={styles.badgeText}>
+              <Text style={styles.bigR}>R</Text>ecipely
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.bottomSection}>
           <TouchableOpacity
             style={styles.loginButton}
             onPress={() => router.push("/sign-in")}
@@ -17,38 +28,61 @@ export default function Welcome(){
           <TouchableOpacity onPress={() => router.push("/sign-up")}>
             <Text style={styles.createAccountText}>Create Account</Text>
           </TouchableOpacity>
-            <View style={styles.miniBadgeRow}>
-            <View style={styles.miniBadge}>
-              <Text style={styles.miniBadgeText}>
-                <Text style={styles.miniBigR}>R</Text>ecipely
-              </Text>
-            </View>
-          </View>
-          </View>
         </View>
-            
-        </ImageBackground>
-    )
+
+        <View style={styles.homeIndicatorWrapper}>
+          <View style={styles.homeIndicator} />
+        </View>
+      </View>
+    </ImageBackground>
+  );
 }
 
 const styles = StyleSheet.create({
- background:{
-  flex: 1,
-  width: "100%",
-  height: "100%",
- },
- overlay :{
- flex: 1,
- justifyContent: "flex-end",
- backgroundColor: "rgba(0,0,0,0.2)",
- },
-   bottomSection: {
+  background: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+  },
+  overlay: {
+    flex: 1,
+    justifyContent: "space-between", 
+    backgroundColor: "rgba(0,0,0,0.15)",
+  },
+  topBadgeRow: {
+    alignItems: "center",
+    paddingTop: 80,
+  },
+  badge: {
+    backgroundColor: "#fff",
+    width: 120,
+    height: 120,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 9999,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  badgeText: {
+    color: "#042628",
+    fontSize: 16,
+    fontWeight: "700",
+  },
+  bigR: {
+    fontSize: 22,
+    fontWeight: "800",
+    color: "#042628",
+  },
+  bottomSection: {
     paddingHorizontal: 24,
-    paddingBottom: 40,
+    paddingBottom: 20,
+    paddingTop: 300,  
     alignItems: "center",
   },
-
-    loginButton: {
+  loginButton: {
     backgroundColor: "#042628",
     width: "100%",
     paddingVertical: 16,
@@ -56,35 +90,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 16,
   },
-
-    loginText: {
+  loginText: {
     color: "#fff",
     fontSize: 16,
     fontWeight: "700",
   },
-    createAccountText: {
+  createAccountText: {
     color: "#fff",
     fontSize: 14,
     fontWeight: "600",
-    marginBottom: 24,
+    marginBottom: 8,
   },
-
-   miniBadgeRow: {
+  homeIndicatorWrapper: {
     alignItems: "center",
+    paddingBottom: 8,
   },
-  miniBadge: {
-    backgroundColor: "#70B9BE",
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
+  homeIndicator: {
+    width: 134,
+    height: 5,
+    backgroundColor: "#fff",
+    borderRadius: 3,
   },
-  miniBadgeText: {
-    color: "#fff",
-    fontSize: 12,
-    fontWeight: "700",
-  },
-  miniBigR: {
-    color: "#042628",
-    fontWeight: "800",
-  },
-})
+});
