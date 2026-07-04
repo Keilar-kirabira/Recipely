@@ -35,16 +35,6 @@ export default function SignUp() {
           <LogoBadge size={100} />
         </View>
 
-        <Text style={styles.continueText}>Continue with</Text>
-
-        <AppButton title="Continue with Google" onPress={() => {}} variant="outline" />
-
-        <View style={styles.dividerRow}>
-          <View style={styles.line} />
-          <Text style={styles.orText}>OR</Text>
-          <View style={styles.line} />
-        </View>
-
         <Text style={styles.heading}>Create Account</Text>
 
         {/* First + Last name on one row */}
@@ -103,6 +93,19 @@ export default function SignUp() {
           <AppButton title="Create Account" onPress={handleSignup} />
         </View>
 
+        <View style={styles.dividerRow}>
+          <View style={styles.line} />
+          <Text style={styles.orText}>OR</Text>
+          <View style={styles.line} />
+        </View>
+
+        <AppButton 
+          title="Continue with Google" 
+          onPress={() => {}} 
+          variant="outline" 
+          icon={require("../assets/images/google.png")} 
+        />
+
         <TouchableOpacity
           style={styles.footerRow}
           onPress={() => router.push("/sign-in")}
@@ -119,7 +122,7 @@ export default function SignUp() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#70B9BE",
+    backgroundColor: "#fff",
   },
   scrollContent: {
     paddingHorizontal: 24,
@@ -129,13 +132,6 @@ const styles = StyleSheet.create({
   badgeRow: {
     alignItems: "center",
     marginBottom: 16,
-  },
-  continueText: {
-    textAlign: "center",
-    fontWeight: "700",
-    fontSize: 16,
-    color: "#042628",
-    marginBottom: 12,
   },
   dividerRow: {
     flexDirection: "row",
@@ -157,6 +153,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "800",
     color: "#042628",
+    textAlign: "center",  // This centers the heading
     marginBottom: 16,
   },
   row: {
