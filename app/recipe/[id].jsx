@@ -46,7 +46,7 @@ export default function RecipeDetails() {
 
         <Text style={styles.description}>{recipe.description}</Text>
 
-        {/* Macros row — icons instead of emojis */}
+  
         <View style={styles.macrosRow}>
           <View style={styles.macroItem}>
             <MaterialCommunityIcons name="barley" size={18} color="#042628" />

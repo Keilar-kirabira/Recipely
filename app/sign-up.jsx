@@ -139,6 +139,10 @@ export default function SignUp() {
           </Text>
         </TouchableOpacity>
       </ScrollView>
+
+          <View style={styles.homeIndicatorWrapper}>
+              <View style={styles.homeIndicator} />
+            </View>
     </SafeAreaView>
   );
 }
@@ -219,5 +223,21 @@ const styles = StyleSheet.create({
   footerLink: {
     fontFamily: "Poppins_800ExtraBold", 
     textDecorationLine: "underline",
+  },
+      homeIndicatorWrapper: {
+    position: 'absolute',
+    bottom: 8,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 999,
+  },
+  homeIndicator: {
+    width: 134,
+    height: 5,
+    backgroundColor: "#042628",
+    borderRadius: 3,
+    opacity: 0.3,
   },
 });

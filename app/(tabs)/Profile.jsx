@@ -46,7 +46,6 @@ export default function Profile() {
       >
         <Text style={styles.heading}>Account Settings</Text>
 
-        {/* Profile picture section */}
         <View style={styles.avatarSection}>
           <View style={styles.avatarWrapper}>
             <Image
@@ -61,7 +60,7 @@ export default function Profile() {
           <Text style={styles.email}>{email}</Text>
         </View>
 
-        {/* Editable info rows, using your existing AppInput */}
+    
         <View style={styles.form}>
           <AppInput
             label="Full Name"
@@ -89,6 +88,9 @@ export default function Profile() {
           <Text style={styles.logoutText}>Logout</Text>
         </TouchableOpacity>
       </ScrollView>
+       <View style={styles.homeIndicatorWrapper}>
+              <View style={styles.homeIndicator} />
+            </View>
     </SafeAreaView>
   );
 }
@@ -163,5 +165,23 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_700Bold",
     fontSize: 15,
     color: "#D9534F",
+  },
+
+
+    homeIndicatorWrapper: {
+    position: 'absolute',
+    bottom: 8,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 999,
+  },
+  homeIndicator: {
+    width: 134,
+    height: 5,
+    backgroundColor: "#042628",
+    borderRadius: 3,
+    opacity: 0.3,
   },
 });

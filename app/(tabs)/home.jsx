@@ -5,21 +5,18 @@ import { useState } from "react";
 import { RECIPES } from "../../data/recipes";
 import CategoryCard from "../../components/CategoryCard";
 
-// Category pill labels — first one starts selected to match the design.
 const CATEGORIES = ["Breakfast", "Lunch", "Dinner", "Snack"];
 
 export default function Home() {
   const loggedInUser = { name: "Alena Sabyan" };
 
-  // Tracks which category pill is currently active.
   const [selectedCategory, setSelectedCategory] = useState("Breakfast");
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* FIXED SECTION — header, banner, category pills.
-          This is a plain View, not a ScrollView, so it never scrolls. */}
+   
       <View style={styles.fixedSection}>
-        {/* Header */}
+      
         <View style={styles.headerRow}>
           <View>
             <Text style={styles.greeting}>Hello,</Text>
@@ -30,7 +27,6 @@ export default function Home() {
           </TouchableOpacity>
         </View>
 
-        {/* Banner with text overlay, positioned at the bottom */}
         <ImageBackground
           source={require("../../assets/images/banner.png")}
           style={styles.banner}
@@ -56,7 +52,6 @@ export default function Home() {
           </View>
         </ImageBackground>
 
-        {/* Category */}
         <View style={styles.sectionHeaderRow}>
           <Text style={styles.sectionTitle}>Category</Text>
           <TouchableOpacity>
@@ -64,9 +59,7 @@ export default function Home() {
           </TouchableOpacity>
         </View>
 
-        {/* Category pills — horizontal scroll, tap to select.
-            Note: this ScrollView scrolls sideways only, so it's fine
-            to keep inside the fixed section. */}
+    
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -89,7 +82,7 @@ export default function Home() {
           })}
         </ScrollView>
 
-        {/* Popular Recipes header stays fixed too, only the grid below scrolls */}
+     
         <View style={styles.sectionHeaderRow}>
           <Text style={styles.sectionTitle}>Popular Recipes</Text>
           <TouchableOpacity>
@@ -98,7 +91,7 @@ export default function Home() {
         </View>
       </View>
 
-      {/* SCROLLABLE SECTION — only the recipe cards scroll vertically */}
+    
       <ScrollView
         style={styles.scrollableSection}
         contentContainerStyle={styles.scrollContent}
@@ -110,26 +103,25 @@ export default function Home() {
           ))}
         </View>
       </ScrollView>
+       <View style={styles.homeIndicatorWrapper}>
+        <View style={styles.homeIndicator} />
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff" },
-
-  // Fixed top section — horizontal padding lives here now since it's no
-  // longer inside the scrollable content container.
   fixedSection: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
     paddingTop: 10,
   },
 
-  // The scrollable area takes up all remaining vertical space below fixedSection.
   scrollableSection: {
     flex: 1,
   },
   scrollContent: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
     paddingBottom: 100,
   },
 
@@ -145,7 +137,7 @@ const styles = StyleSheet.create({
   banner: {
     width: "100%",
     height: 160,
-    marginBottom: 24,
+    marginBottom: 15,
     backgroundColor: "#042628",
     borderRadius: 20,
     justifyContent: "flex-end",
@@ -196,7 +188,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_700Bold",
     fontSize: 17,
     color: "#042628",
-    marginBottom: 12,
+    // marginBottom: 1,
   },
   sectionHeaderRow: {
     flexDirection: "row",
@@ -233,5 +225,22 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
+  },
+
+    homeIndicatorWrapper: {
+    position: 'absolute',
+    bottom: 8,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 999,
+  },
+  homeIndicator: {
+    width: 134,
+    height: 5,
+    backgroundColor: "#042628",
+    borderRadius: 3,
+    opacity: 0.3,
   },
 });

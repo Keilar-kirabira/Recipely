@@ -12,7 +12,7 @@ export default function CategoryCard({ recipe }) {
       <View style={styles.imageWrapper}>
         <Image source={recipe.image} style={styles.image} />
 
-        {/* Heart icon, top right corner of the card image */}
+        
         <TouchableOpacity style={styles.heartButton} activeOpacity={0.8}>
           <Ionicons name="heart-outline" size={16} color="#042628" />
         </TouchableOpacity>
@@ -34,22 +34,22 @@ const styles = StyleSheet.create({
     backgroundColor: "#F7F7F7",
     borderRadius: 16,
     padding: 10,
-    marginBottom: 14,
+    marginBottom: 16,
   },
   imageWrapper: {
-    position: "relative", // lets heartButton position relative to this box, not the whole card
+    position: "relative", 
     marginBottom: 8,
   },
   image: {
     width: "100%",
     height: 90,
     borderRadius: 12,
-    // removed marginBottom here since imageWrapper now handles that spacing
+    
   },
   heartButton: {
-    position: "absolute", // pulls the icon out of normal flow
-    top: 8,               // 8px down from the top of imageWrapper
-    right: 8,              // 8px in from the right edge of imageWrapper
+    position: "absolute", 
+    top: 8,               
+    right: 8,             
     backgroundColor: "#fff",
     borderRadius: 12,
     padding: 5,
