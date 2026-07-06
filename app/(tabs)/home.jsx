@@ -16,10 +16,9 @@ export default function Home() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
+      {/* FIXED SECTION — header, banner, category pills.
+          This is a plain View, not a ScrollView, so it never scrolls. */}
+      <View style={styles.fixedSection}>
         {/* Header */}
         <View style={styles.headerRow}>
           <View>
@@ -65,7 +64,9 @@ export default function Home() {
           </TouchableOpacity>
         </View>
 
-        {/* Category pills — horizontal scroll, tap to select */}
+        {/* Category pills — horizontal scroll, tap to select.
+            Note: this ScrollView scrolls sideways only, so it's fine
+            to keep inside the fixed section. */}
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -88,13 +89,21 @@ export default function Home() {
           })}
         </ScrollView>
 
-        {/* Popular Recipes */}
+        {/* Popular Recipes header stays fixed too, only the grid below scrolls */}
         <View style={styles.sectionHeaderRow}>
           <Text style={styles.sectionTitle}>Popular Recipes</Text>
           <TouchableOpacity>
             <Text style={styles.seeAll}>See All</Text>
           </TouchableOpacity>
         </View>
+      </View>
+
+      {/* SCROLLABLE SECTION — only the recipe cards scroll vertically */}
+      <ScrollView
+        style={styles.scrollableSection}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.categoryGrid}>
           {RECIPES.map((recipe) => (
             <CategoryCard key={recipe.id} recipe={recipe} />
@@ -107,7 +116,23 @@ export default function Home() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff" },
-  scrollContent: { paddingHorizontal: 20, paddingTop: 10, paddingBottom: 100 },
+
+  // Fixed top section — horizontal padding lives here now since it's no
+  // longer inside the scrollable content container.
+  fixedSection: {
+    paddingHorizontal: 20,
+    paddingTop: 10,
+  },
+
+  // The scrollable area takes up all remaining vertical space below fixedSection.
+  scrollableSection: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingHorizontal: 20,
+    paddingBottom: 100,
+  },
+
   headerRow: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -123,10 +148,9 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     backgroundColor: "#042628",
     borderRadius: 20,
-    justifyContent: "flex-end", // pushes bannerOverlay to sit at the bottom of the banner
+    justifyContent: "flex-end",
   },
 
-  // Text block sitting at the bottom of the banner image
   bannerOverlay: {
     padding: 16,
   },
@@ -183,7 +207,6 @@ const styles = StyleSheet.create({
   },
   seeAll: { fontFamily: "Poppins_600SemiBold", fontSize: 13, color: "#042628" },
 
-  // Category pills
   pillRow: {
     gap: 10,
     paddingBottom: 4,
