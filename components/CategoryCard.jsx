@@ -1,4 +1,5 @@
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 
 export default function CategoryCard({ recipe }) {
@@ -8,7 +9,15 @@ export default function CategoryCard({ recipe }) {
       onPress={() => router.push(`/recipe/${recipe.id}`)}
       activeOpacity={0.8}
     >
-      <Image source={recipe.image} style={styles.image} />
+      <View style={styles.imageWrapper}>
+        <Image source={recipe.image} style={styles.image} />
+
+        {/* Heart icon, top right corner of the card image */}
+        <TouchableOpacity style={styles.heartButton} activeOpacity={0.8}>
+          <Ionicons name="heart-outline" size={16} color="#042628" />
+        </TouchableOpacity>
+      </View>
+
       <Text style={styles.title} numberOfLines={1}>
         {recipe.title}
       </Text>
@@ -27,11 +36,23 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 14,
   },
+  imageWrapper: {
+    position: "relative", // lets heartButton position relative to this box, not the whole card
+    marginBottom: 8,
+  },
   image: {
     width: "100%",
     height: 90,
     borderRadius: 12,
-    marginBottom: 8,
+    // removed marginBottom here since imageWrapper now handles that spacing
+  },
+  heartButton: {
+    position: "absolute", // pulls the icon out of normal flow
+    top: 8,               // 8px down from the top of imageWrapper
+    right: 8,              // 8px in from the right edge of imageWrapper
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    padding: 5,
   },
   title: {
     fontFamily: "Poppins_600SemiBold",
