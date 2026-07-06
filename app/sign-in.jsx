@@ -18,10 +18,9 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const [isChecked, setChecked] = useState(false);
 
-  const handleLogin = () => {
-    // this is where you'll later call Supabase/Firebase signIn()
-    console.log({ email, password, rememberMe: isChecked });
-  };
+ const handleLogin = () =>{
+  router.replace("/(tabs)/home")
+ }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -52,7 +51,6 @@ export default function SignIn() {
           onChangeText={setPassword}
         />
 
-        {/* Remember Me & Forgot Password Row */}
         <View style={styles.row}>
           <View style={styles.rememberMeContainer}>
             <Checkbox 
