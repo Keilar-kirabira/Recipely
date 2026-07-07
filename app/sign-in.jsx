@@ -5,10 +5,13 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
-import { Checkbox } from 'expo-checkbox';
+import { Checkbox } from "expo-checkbox";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebaseConfig";
 import LogoBadge from "../components/LogoBadge";
 import AppButton from "../components/AppButton";
 import AppInput from "../components/AppInput";
@@ -17,10 +20,24 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isChecked, setChecked] = useState(false);
+  const [loading, setLoading] = useState(false);
 
- const handleLogin = () =>{
-  router.replace("/(tabs)/home")
- }
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert("Missing Info", "Please enter both email and password.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      router.replace("/(tabs)/home");
+    } catch (error) {
+      Alert.alert("Login Failed", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -53,11 +70,11 @@ export default function SignIn() {
 
         <View style={styles.row}>
           <View style={styles.rememberMeContainer}>
-            <Checkbox 
-              color={'#042628'} 
-              style={styles.checkbox} 
-              value={isChecked} 
-              onValueChange={setChecked} 
+            <Checkbox
+              color={"#042628"}
+              style={styles.checkbox}
+              value={isChecked}
+              onValueChange={setChecked}
             />
             <Text style={styles.rememberMeText}>Remember Me</Text>
           </View>
@@ -67,7 +84,10 @@ export default function SignIn() {
         </View>
 
         <View style={{ marginTop: 8 }}>
-          <AppButton title="Login" onPress={handleLogin} />
+          <AppButton
+            title={loading ? "Logging In..." : "Login"}
+            onPress={handleLogin}
+          />
         </View>
 
         <View style={styles.dividerRow}>
@@ -76,11 +96,11 @@ export default function SignIn() {
           <View style={styles.line} />
         </View>
 
-        <AppButton 
-          title="Continue with Google" 
-          onPress={() => {}} 
-          variant="outline" 
-          icon={require("../assets/images/google.png")} 
+        <AppButton
+          title="Continue with Google"
+          onPress={() => {}}
+          variant="outline"
+          icon={require("../assets/images/google.png")}
         />
 
         <TouchableOpacity
@@ -88,13 +108,14 @@ export default function SignIn() {
           onPress={() => router.push("/sign-up")}
         >
           <Text style={styles.footerText}>
-            Don't have an account? <Text style={styles.footerLink}>Sign Up</Text>
+            Don't have an account?{" "}
+            <Text style={styles.footerLink}>Sign Up</Text>
           </Text>
         </TouchableOpacity>
       </ScrollView>
-        <View style={styles.homeIndicatorWrapper}>
-              <View style={styles.homeIndicator} />
-            </View>
+      <View style={styles.homeIndicatorWrapper}>
+        <View style={styles.homeIndicator} />
+      </View>
     </SafeAreaView>
   );
 }
@@ -102,16 +123,16 @@ export default function SignIn() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff", 
+    backgroundColor: "#fff",
   },
   scrollContent: {
     paddingHorizontal: 24,
-    paddingTop: 80, 
+    paddingTop: 80,
     paddingBottom: 40,
   },
   badgeRow: {
     alignItems: "center",
-    marginBottom: 16, 
+    marginBottom: 16,
   },
   dividerRow: {
     flexDirection: "row",
@@ -126,12 +147,12 @@ const styles = StyleSheet.create({
   },
   orText: {
     marginHorizontal: 10,
-     fontFamily: "Poppins_700Bold",
+    fontFamily: "Poppins_700Bold",
     color: "#042628",
   },
   heading: {
     fontSize: 20,
-     fontFamily: "Poppins_800ExtraBold",
+    fontFamily: "Poppins_800ExtraBold",
     color: "#042628",
     textAlign: "center",
     marginBottom: 16,
@@ -156,7 +177,7 @@ const styles = StyleSheet.create({
   rememberMeText: {
     color: "#042628",
     fontSize: 14,
-    fontFamily: "Poppins_400Regular", 
+    fontFamily: "Poppins_400Regular",
   },
   forgotPassword: {
     color: "#042628",
@@ -173,16 +194,16 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_400Regular",
   },
   footerLink: {
-    fontFamily: "Poppins_800ExtraBold", 
+    fontFamily: "Poppins_800ExtraBold",
     textDecorationLine: "underline",
   },
-      homeIndicatorWrapper: {
-    position: 'absolute',
+  homeIndicatorWrapper: {
+    position: "absolute",
     bottom: 8,
     left: 0,
     right: 0,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     zIndex: 999,
   },
   homeIndicator: {

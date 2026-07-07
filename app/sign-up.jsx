@@ -5,10 +5,13 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import CountryPicker from "react-native-country-picker-modal";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {auth} from "../firebaseConfig";
 import LogoBadge from "../components/LogoBadge";
 import AppButton from "../components/AppButton";
 import AppInput from "../components/AppInput";
@@ -23,9 +26,33 @@ export default function SignUp() {
   const [showPicker, setShowPicker] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSignup = () => {
-    console.log({ firstName, lastName, email, country, password });
+  const handleSignup = async () => {
+    if (!firstName || !lastName || !email || !password) {
+      Alert.alert("Missing Info", "Please fill in all required fields.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      Alert.alert("Error", "Passwords do not match.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+
+      await updateProfile(userCredential.user, {
+        displayName: `${firstName} ${lastName}`,
+      });
+
+      router.replace("/(tabs)/home");
+    } catch (error) {
+      Alert.alert("Sign Up Failed", error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -113,8 +140,11 @@ export default function SignUp() {
           onChangeText={setConfirmPassword}
         />
 
-        <View style={{ marginTop: 8 }}>
-          <AppButton title="Create Account" onPress={handleSignup} />
+         <View style={{ marginTop: 8 }}>
+          <AppButton
+            title={loading ? "Creating Account..." : "Create Account"}
+            onPress={handleSignup}
+          />
         </View>
 
         <View style={styles.dividerRow}>

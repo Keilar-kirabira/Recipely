@@ -1,26 +1,34 @@
 import { View, Text, StyleSheet, ScrollView, ImageBackground, TouchableOpacity, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../firebaseConfig";
 import { RECIPES } from "../../data/recipes";
 import CategoryCard from "../../components/CategoryCard";
 
 const CATEGORIES = ["Breakfast", "Lunch", "Dinner", "Snack"];
 
 export default function Home() {
-  const loggedInUser = { name: "Alena Sabyan" };
-
+  const [userName, setUserName] = useState("Chef");
   const [selectedCategory, setSelectedCategory] = useState("Breakfast");
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserName(user.displayName || "Chef");
+      }
+    });
+    return unsubscribe;
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
-   
       <View style={styles.fixedSection}>
-      
         <View style={styles.headerRow}>
           <View>
             <Text style={styles.greeting}>Hello,</Text>
-            <Text style={styles.userName}>{loggedInUser.name}</Text>
+            <Text style={styles.userName}>{userName}</Text>
           </View>
           <TouchableOpacity>
             <Ionicons name="cart-outline" size={26} color="#042628" />
@@ -59,7 +67,6 @@ export default function Home() {
           </TouchableOpacity>
         </View>
 
-    
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -82,7 +89,6 @@ export default function Home() {
           })}
         </ScrollView>
 
-     
         <View style={styles.sectionHeaderRow}>
           <Text style={styles.sectionTitle}>Popular Recipes</Text>
           <TouchableOpacity>
@@ -91,7 +97,6 @@ export default function Home() {
         </View>
       </View>
 
-    
       <ScrollView
         style={styles.scrollableSection}
         contentContainerStyle={styles.scrollContent}
@@ -103,7 +108,7 @@ export default function Home() {
           ))}
         </View>
       </ScrollView>
-       <View style={styles.homeIndicatorWrapper}>
+      <View style={styles.homeIndicatorWrapper}>
         <View style={styles.homeIndicator} />
       </View>
     </SafeAreaView>
@@ -112,19 +117,9 @@ export default function Home() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff" },
-  fixedSection: {
-    paddingHorizontal: 15,
-    paddingTop: 10,
-  },
-
-  scrollableSection: {
-    flex: 1,
-  },
-  scrollContent: {
-    paddingHorizontal: 15,
-    paddingBottom: 100,
-  },
-
+  fixedSection: { paddingHorizontal: 15, paddingTop: 10 },
+  scrollableSection: { flex: 1 },
+  scrollContent: { paddingHorizontal: 15, paddingBottom: 100 },
   headerRow: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -133,7 +128,6 @@ const styles = StyleSheet.create({
   },
   greeting: { fontFamily: "Poppins_400Regular", fontSize: 13, color: "#666" },
   userName: { fontFamily: "Poppins_800ExtraBold", fontSize: 22, color: "#042628" },
-
   banner: {
     width: "100%",
     height: 160,
@@ -142,10 +136,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: "flex-end",
   },
-
-  bannerOverlay: {
-    padding: 16,
-  },
+  bannerOverlay: { padding: 16 },
   bannerTitle: {
     fontFamily: "Poppins_700Bold",
     fontSize: 16,
@@ -158,38 +149,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  bannerAuthorRow: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  bannerAvatar: {
-    width: 22,
-    height: 22,
-    borderRadius: 11,
-    marginRight: 6,
-  },
-  bannerAuthorName: {
-    fontFamily: "Poppins_600SemiBold",
-    fontSize: 12,
-    color: "#fff",
-  },
-  bannerTimeRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 4,
-  },
-  bannerTimeText: {
-    fontFamily: "Poppins_400Regular",
-    fontSize: 12,
-    color: "#fff",
-  },
-
-  sectionTitle: {
-    fontFamily: "Poppins_700Bold",
-    fontSize: 17,
-    color: "#042628",
-    // marginBottom: 1,
-  },
+  bannerAuthorRow: { flexDirection: "row", alignItems: "center" },
+  bannerAvatar: { width: 22, height: 22, borderRadius: 11, marginRight: 6 },
+  bannerAuthorName: { fontFamily: "Poppins_600SemiBold", fontSize: 12, color: "#fff" },
+  bannerTimeRow: { flexDirection: "row", alignItems: "center", gap: 4 },
+  bannerTimeText: { fontFamily: "Poppins_400Regular", fontSize: 12, color: "#fff" },
+  sectionTitle: { fontFamily: "Poppins_700Bold", fontSize: 17, color: "#042628" },
   sectionHeaderRow: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -198,42 +163,24 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   seeAll: { fontFamily: "Poppins_600SemiBold", fontSize: 13, color: "#042628" },
-
-  pillRow: {
-    gap: 10,
-    paddingBottom: 4,
-  },
+  pillRow: { gap: 10, paddingBottom: 4 },
   pill: {
     paddingHorizontal: 18,
     paddingVertical: 10,
     borderRadius: 24,
     backgroundColor: "#F0F0F0",
   },
-  pillActive: {
-    backgroundColor: "#042628",
-  },
-  pillText: {
-    fontFamily: "Poppins_600SemiBold",
-    fontSize: 13,
-    color: "#666",
-  },
-  pillTextActive: {
-    color: "#fff",
-  },
-
-  categoryGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-  },
-
-    homeIndicatorWrapper: {
-    position: 'absolute',
+  pillActive: { backgroundColor: "#042628" },
+  pillText: { fontFamily: "Poppins_600SemiBold", fontSize: 13, color: "#666" },
+  pillTextActive: { color: "#fff" },
+  categoryGrid: { flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between" },
+  homeIndicatorWrapper: {
+    position: "absolute",
     bottom: 8,
     left: 0,
     right: 0,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     zIndex: 999,
   },
   homeIndicator: {
