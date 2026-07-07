@@ -9,16 +9,16 @@ export default function TabsLayout() {
         tabBarActiveTintColor: "#042628",
         tabBarInactiveTintColor: "#B0B0B0",
         tabBarStyle: {
-          position: 'absolute',
+          position: "absolute",
           bottom: 20,
           left: 20,
           right: 20,
           height: 70,
           borderRadius: 30,
-          backgroundColor: '#ffffff',
+          backgroundColor: "#ffffff",
           paddingBottom: 8,
           paddingTop: 8,
-          shadowColor: '#000',
+          shadowColor: "#000",
           shadowOffset: {
             width: 0,
             height: 4,
@@ -27,7 +27,7 @@ export default function TabsLayout() {
           shadowRadius: 10,
           elevation: 8,
           borderWidth: 1,
-          borderColor: 'rgba(0,0,0,0.05)',
+          borderColor: "rgba(0,0,0,0.05)",
         },
         tabBarItemStyle: {
           borderRadius: 20,

@@ -11,7 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import CountryPicker from "react-native-country-picker-modal";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import {auth} from "../firebaseConfig";
+import { auth } from "../firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import LogoBadge from "../components/LogoBadge";
@@ -30,37 +30,41 @@ export default function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-const handleSignup = async () => {
-  if (!firstName || !lastName || !email || !password) {
-    Alert.alert("Missing Info", "Please fill in all required fields.");
-    return;
-  }
+  const handleSignup = async () => {
+    if (!firstName || !lastName || !email || !password) {
+      Alert.alert("Missing Info", "Please fill in all required fields.");
+      return;
+    }
 
-  if (password !== confirmPassword) {
-    Alert.alert("Error", "Passwords do not match.");
-    return;
-  }
+    if (password !== confirmPassword) {
+      Alert.alert("Error", "Passwords do not match.");
+      return;
+    }
 
-  setLoading(true);
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const fullName = `${firstName} ${lastName}`;
+    setLoading(true);
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      const fullName = `${firstName} ${lastName}`;
 
-    await updateProfile(userCredential.user, { displayName: fullName });
+      await updateProfile(userCredential.user, { displayName: fullName });
 
-    await setDoc(doc(db, "users", userCredential.user.uid), {
-      fullName,
-      email,
-      country: country || "Uganda",
-    });
+      await setDoc(doc(db, "users", userCredential.user.uid), {
+        fullName,
+        email,
+        country: country || "Uganda",
+      });
 
-    router.replace("/(tabs)/home");
-  } catch (error) {
-    Alert.alert("Sign Up Failed", error.message);
-  } finally {
-    setLoading(false);
-  }
-};
+      router.replace("/(tabs)/home");
+    } catch (error) {
+      Alert.alert("Sign Up Failed", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -102,34 +106,34 @@ const handleSignup = async () => {
           onChangeText={setEmail}
         />
 
-       <View style={styles.countryWrapper}>
-  <Text style={styles.label}>Country</Text>
+        <View style={styles.countryWrapper}>
+          <Text style={styles.label}>Country</Text>
 
-  <TouchableOpacity
-    style={styles.countryRow}
-    onPress={() => setShowPicker(true)}
-    activeOpacity={0.7}
-  >
-    <View style={{ flex: 1 }}>
-      <CountryPicker
-        countryCode={countryCode || "UG"}
-        withFilter
-        withFlag
-        withCountryNameButton
-        withAlphaFilter
-        visible={showPicker}
-        onSelect={(selectedCountry) => {
-          setCountryCode(selectedCountry.cca2);
-          setCountry(selectedCountry.name);
-          setShowPicker(false);
-        }}
-        onClose={() => setShowPicker(false)}
-      />
-    </View>
+          <TouchableOpacity
+            style={styles.countryRow}
+            onPress={() => setShowPicker(true)}
+            activeOpacity={0.7}
+          >
+            <View style={{ flex: 1 }}>
+              <CountryPicker
+                countryCode={countryCode || "UG"}
+                withFilter
+                withFlag
+                withCountryNameButton
+                withAlphaFilter
+                visible={showPicker}
+                onSelect={(selectedCountry) => {
+                  setCountryCode(selectedCountry.cca2);
+                  setCountry(selectedCountry.name);
+                  setShowPicker(false);
+                }}
+                onClose={() => setShowPicker(false)}
+              />
+            </View>
 
-    <Ionicons name="chevron-down" size={18} color="#666" />
-  </TouchableOpacity>
-</View>
+            <Ionicons name="chevron-down" size={18} color="#666" />
+          </TouchableOpacity>
+        </View>
 
         <AppInput
           label="Password"
@@ -147,7 +151,7 @@ const handleSignup = async () => {
           onChangeText={setConfirmPassword}
         />
 
-         <View style={{ marginTop: 8 }}>
+        <View style={{ marginTop: 8 }}>
           <AppButton
             title={loading ? "Creating Account..." : "Create Account"}
             onPress={handleSignup}
@@ -172,14 +176,15 @@ const handleSignup = async () => {
           onPress={() => router.push("/sign-in")}
         >
           <Text style={styles.footerText}>
-            Already have an account? <Text style={styles.footerLink}>Login</Text>
+            Already have an account?{" "}
+            <Text style={styles.footerLink}>Login</Text>
           </Text>
         </TouchableOpacity>
       </ScrollView>
 
-          <View style={styles.homeIndicatorWrapper}>
-              <View style={styles.homeIndicator} />
-            </View>
+      <View style={styles.homeIndicatorWrapper}>
+        <View style={styles.homeIndicator} />
+      </View>
     </SafeAreaView>
   );
 }
@@ -216,7 +221,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontSize: 20,
-   fontFamily: "Poppins_800ExtraBold", 
+    fontFamily: "Poppins_800ExtraBold",
     color: "#042628",
     textAlign: "center",
     marginBottom: 16,
@@ -239,10 +244,10 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   countryRow: {
-     flexDirection: "row",
-     alignItems: "center",
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: "#fff",
-      justifyContent: "space-between",
+    justifyContent: "space-between",
     borderRadius: 12,
     paddingHorizontal: 14,
     paddingVertical: 8,
@@ -258,16 +263,16 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_400Regular",
   },
   footerLink: {
-    fontFamily: "Poppins_800ExtraBold", 
+    fontFamily: "Poppins_800ExtraBold",
     textDecorationLine: "underline",
   },
-      homeIndicatorWrapper: {
-    position: 'absolute',
+  homeIndicatorWrapper: {
+    position: "absolute",
     bottom: 8,
     left: 0,
     right: 0,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     zIndex: 999,
   },
   homeIndicator: {

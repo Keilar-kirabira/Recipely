@@ -1,4 +1,12 @@
-import { View, Text, StyleSheet, ScrollView, ImageBackground, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  ImageBackground,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
@@ -81,7 +89,9 @@ export default function Home() {
                 style={[styles.pill, isActive && styles.pillActive]}
                 activeOpacity={0.8}
               >
-                <Text style={[styles.pillText, isActive && styles.pillTextActive]}>
+                <Text
+                  style={[styles.pillText, isActive && styles.pillTextActive]}
+                >
                   {category}
                 </Text>
               </TouchableOpacity>
@@ -127,7 +137,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   greeting: { fontFamily: "Poppins_400Regular", fontSize: 13, color: "#666" },
-  userName: { fontFamily: "Poppins_800ExtraBold", fontSize: 22, color: "#042628" },
+  userName: {
+    fontFamily: "Poppins_800ExtraBold",
+    fontSize: 22,
+    color: "#042628",
+  },
   banner: {
     width: "100%",
     height: 160,
@@ -151,10 +165,22 @@ const styles = StyleSheet.create({
   },
   bannerAuthorRow: { flexDirection: "row", alignItems: "center" },
   bannerAvatar: { width: 22, height: 22, borderRadius: 11, marginRight: 6 },
-  bannerAuthorName: { fontFamily: "Poppins_600SemiBold", fontSize: 12, color: "#fff" },
+  bannerAuthorName: {
+    fontFamily: "Poppins_600SemiBold",
+    fontSize: 12,
+    color: "#fff",
+  },
   bannerTimeRow: { flexDirection: "row", alignItems: "center", gap: 4 },
-  bannerTimeText: { fontFamily: "Poppins_400Regular", fontSize: 12, color: "#fff" },
-  sectionTitle: { fontFamily: "Poppins_700Bold", fontSize: 17, color: "#042628" },
+  bannerTimeText: {
+    fontFamily: "Poppins_400Regular",
+    fontSize: 12,
+    color: "#fff",
+  },
+  sectionTitle: {
+    fontFamily: "Poppins_700Bold",
+    fontSize: 17,
+    color: "#042628",
+  },
   sectionHeaderRow: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -173,7 +199,11 @@ const styles = StyleSheet.create({
   pillActive: { backgroundColor: "#042628" },
   pillText: { fontFamily: "Poppins_600SemiBold", fontSize: 13, color: "#666" },
   pillTextActive: { color: "#fff" },
-  categoryGrid: { flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between" },
+  categoryGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+  },
   homeIndicatorWrapper: {
     position: "absolute",
     bottom: 8,

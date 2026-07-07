@@ -17,7 +17,6 @@ export default function ForgotPassword() {
 
   const handleReset = () => {
     console.log({ email });
-    // Add password reset logic here
   };
 
   return (

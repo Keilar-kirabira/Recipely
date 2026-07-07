@@ -1,4 +1,10 @@
-import { Text, View, StyleSheet, ImageBackground, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  ImageBackground,
+  TouchableOpacity,
+} from "react-native";
 import { router } from "expo-router";
 import LogoBadge from "../components/LogoBadge";
 

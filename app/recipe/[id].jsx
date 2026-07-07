@@ -28,14 +28,20 @@ export default function RecipeDetails() {
     <View style={styles.container}>
       <Image source={recipe.image} style={styles.heroImage} />
 
-      <TouchableOpacity style={styles.closeButton} onPress={() => router.back()}>
+      <TouchableOpacity
+        style={styles.closeButton}
+        onPress={() => router.back()}
+      >
         <Ionicons name="close" size={20} color="#042628" />
       </TouchableOpacity>
       <TouchableOpacity style={styles.heartButton}>
         <Ionicons name="heart-outline" size={20} color="#042628" />
       </TouchableOpacity>
 
-      <ScrollView style={styles.sheet} contentContainerStyle={{ paddingBottom: 40 }}>
+      <ScrollView
+        style={styles.sheet}
+        contentContainerStyle={{ paddingBottom: 40 }}
+      >
         <View style={styles.titleRow}>
           <Text style={styles.title}>{recipe.title}</Text>
           <View style={styles.timeRow}>
@@ -46,7 +52,6 @@ export default function RecipeDetails() {
 
         <Text style={styles.description}>{recipe.description}</Text>
 
-  
         <View style={styles.macrosRow}>
           <View style={styles.macroItem}>
             <MaterialCommunityIcons name="barley" size={18} color="#042628" />
@@ -57,29 +62,53 @@ export default function RecipeDetails() {
             <Text style={styles.macroText}>{recipe.kcal}</Text>
           </View>
           <View style={styles.macroItem}>
-            <MaterialCommunityIcons name="arm-flex-outline" size={18} color="#042628" />
+            <MaterialCommunityIcons
+              name="arm-flex-outline"
+              size={18}
+              color="#042628"
+            />
             <Text style={styles.macroText}>{recipe.protein} protein</Text>
           </View>
           <View style={styles.macroItem}>
-            <MaterialCommunityIcons name="water-outline" size={18} color="#042628" />
+            <MaterialCommunityIcons
+              name="water-outline"
+              size={18}
+              color="#042628"
+            />
             <Text style={styles.macroText}>{recipe.fats} fats</Text>
           </View>
         </View>
 
         <View style={styles.tabRow}>
           <TouchableOpacity
-            style={[styles.tab, activeTab === "ingredients" && styles.tabActive]}
+            style={[
+              styles.tab,
+              activeTab === "ingredients" && styles.tabActive,
+            ]}
             onPress={() => setActiveTab("ingredients")}
           >
-            <Text style={[styles.tabText, activeTab === "ingredients" && styles.tabTextActive]}>
+            <Text
+              style={[
+                styles.tabText,
+                activeTab === "ingredients" && styles.tabTextActive,
+              ]}
+            >
               Ingredients
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.tab, activeTab === "instructions" && styles.tabActive]}
+            style={[
+              styles.tab,
+              activeTab === "instructions" && styles.tabActive,
+            ]}
             onPress={() => setActiveTab("instructions")}
           >
-            <Text style={[styles.tabText, activeTab === "instructions" && styles.tabTextActive]}>
+            <Text
+              style={[
+                styles.tabText,
+                activeTab === "instructions" && styles.tabTextActive,
+              ]}
+            >
               Instructions
             </Text>
           </TouchableOpacity>
@@ -98,7 +127,9 @@ export default function RecipeDetails() {
             </TouchableOpacity>
           </View>
         ) : (
-          <Text style={styles.description}>Step-by-step instructions go here.</Text>
+          <Text style={styles.description}>
+            Step-by-step instructions go here.
+          </Text>
         )}
       </ScrollView>
     </View>
@@ -181,8 +212,16 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#eee",
   },
-  ingredientName: { fontFamily: "Poppins_500Medium", fontSize: 14, color: "#042628" },
-  ingredientQty: { fontFamily: "Poppins_600SemiBold", fontSize: 14, color: "#042628" },
+  ingredientName: {
+    fontFamily: "Poppins_500Medium",
+    fontSize: 14,
+    color: "#042628",
+  },
+  ingredientQty: {
+    fontFamily: "Poppins_600SemiBold",
+    fontSize: 14,
+    color: "#042628",
+  },
   addToCartButton: {
     backgroundColor: "#042628",
     borderRadius: 30,

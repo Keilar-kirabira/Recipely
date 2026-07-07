@@ -46,7 +46,11 @@ export default function Profile() {
     setSaving(true);
     try {
       await updateProfile(auth.currentUser, { displayName: fullName });
-      await setDoc(doc(db, "users", uid), { fullName, country }, { merge: true });
+      await setDoc(
+        doc(db, "users", uid),
+        { fullName, country },
+        { merge: true },
+      );
       Alert.alert("Saved", "Your profile has been updated.");
     } catch (error) {
       Alert.alert("Save Failed", error.message);
@@ -93,7 +97,11 @@ export default function Profile() {
         </View>
 
         <View style={styles.form}>
-          <AppInput label="Full Name" value={fullName} onChangeText={setFullName} />
+          <AppInput
+            label="Full Name"
+            value={fullName}
+            onChangeText={setFullName}
+          />
 
           <AppInput
             label="Email"
@@ -106,8 +114,14 @@ export default function Profile() {
           <AppInput label="Country" value={country} onChangeText={setCountry} />
         </View>
 
-        <TouchableOpacity style={styles.saveButton} onPress={handleSave} disabled={saving}>
-          <Text style={styles.saveText}>{saving ? "Saving..." : "Save Changes"}</Text>
+        <TouchableOpacity
+          style={styles.saveButton}
+          onPress={handleSave}
+          disabled={saving}
+        >
+          <Text style={styles.saveText}>
+            {saving ? "Saving..." : "Save Changes"}
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
@@ -132,11 +146,26 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 24,
   },
-  avatarSection: { alignItems: "center", marginBottom: 32 },
-  avatarWrapper: { marginBottom: 12 },
-  avatar: { width: 100, height: 100, borderRadius: 50, backgroundColor: "#F2F2F2" },
+  avatarSection: {
+    alignItems: "center",
+    marginBottom: 32,
+  },
+  avatarWrapper: {
+    marginBottom: 12,
+  },
+  avatar: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: "#F2F2F2",
+  },
   name: { fontFamily: "Poppins_700Bold", fontSize: 17, color: "#042628" },
-  email: { fontFamily: "Poppins_400Regular", fontSize: 13, color: "#888", marginTop: 2 },
+  email: {
+    fontFamily: "Poppins_400Regular",
+    fontSize: 13,
+    color: "#888",
+    marginTop: 2,
+  },
   form: { marginBottom: 20 },
   saveButton: {
     backgroundColor: "#042628",

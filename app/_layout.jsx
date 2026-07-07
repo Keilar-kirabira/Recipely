@@ -19,7 +19,7 @@ export default function RootLayout() {
   });
 
   if (!fontsLoaded) {
-    return <View style={{ flex: 1, backgroundColor: "#fff" }} />; // blank screen while loading
+    return <View style={{ flex: 1, backgroundColor: "#fff" }} />;
   }
 
   return <Stack screenOptions={{ headerShown: false }} />;
