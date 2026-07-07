@@ -47,10 +47,10 @@ export default function Home() {
             <View style={styles.bannerMetaRow}>
               <View style={styles.bannerAuthorRow}>
                 <Image
-                  source={require("../../assets/images/Profile.png")}
+                  source={require("../../assets/images/Profile.jpeg")}
                   style={styles.bannerAvatar}
                 />
-                <Text style={styles.bannerAuthorName}>James Spader</Text>
+                <Text style={styles.bannerAuthorName}>Kelesy Lean</Text>
               </View>
               <View style={styles.bannerTimeRow}>
                 <Ionicons name="time-outline" size={14} color="#fff" />

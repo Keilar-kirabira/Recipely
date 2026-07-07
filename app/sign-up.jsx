@@ -12,6 +12,8 @@ import { router } from "expo-router";
 import CountryPicker from "react-native-country-picker-modal";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import {auth} from "../firebaseConfig";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../firebaseConfig";
 import LogoBadge from "../components/LogoBadge";
 import AppButton from "../components/AppButton";
 import AppInput from "../components/AppInput";
@@ -28,32 +30,37 @@ export default function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSignup = async () => {
-    if (!firstName || !lastName || !email || !password) {
-      Alert.alert("Missing Info", "Please fill in all required fields.");
-      return;
-    }
+const handleSignup = async () => {
+  if (!firstName || !lastName || !email || !password) {
+    Alert.alert("Missing Info", "Please fill in all required fields.");
+    return;
+  }
 
-    if (password !== confirmPassword) {
-      Alert.alert("Error", "Passwords do not match.");
-      return;
-    }
+  if (password !== confirmPassword) {
+    Alert.alert("Error", "Passwords do not match.");
+    return;
+  }
 
-    setLoading(true);
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+  setLoading(true);
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const fullName = `${firstName} ${lastName}`;
 
-      await updateProfile(userCredential.user, {
-        displayName: `${firstName} ${lastName}`,
-      });
+    await updateProfile(userCredential.user, { displayName: fullName });
 
-      router.replace("/(tabs)/home");
-    } catch (error) {
-      Alert.alert("Sign Up Failed", error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+    await setDoc(doc(db, "users", userCredential.user.uid), {
+      fullName,
+      email,
+      country: country || "Uganda",
+    });
+
+    router.replace("/(tabs)/home");
+  } catch (error) {
+    Alert.alert("Sign Up Failed", error.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <SafeAreaView style={styles.container}>

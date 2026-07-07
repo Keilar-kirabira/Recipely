@@ -11,24 +11,49 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "../../firebaseConfig";
+import { onAuthStateChanged, updateProfile, signOut } from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { auth, db } from "../../firebaseConfig";
 import AppInput from "../../components/AppInput";
 
 export default function Profile() {
+  const [uid, setUid] = useState(null);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
-  const [country, setCountry] = useState("Uganda"); // not stored in Firebase Auth by default
+  const [country, setCountry] = useState("");
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        setFullName(user.displayName || "Chef");
+        setUid(user.uid);
         setEmail(user.email || "");
+
+        const snapshot = await getDoc(doc(db, "users", user.uid));
+        if (snapshot.exists()) {
+          const data = snapshot.data();
+          setFullName(data.fullName || user.displayName || "Chef");
+          setCountry(data.country || "");
+        } else {
+          setFullName(user.displayName || "Chef");
+        }
       }
     });
     return unsubscribe;
   }, []);
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      await updateProfile(auth.currentUser, { displayName: fullName });
+      await setDoc(doc(db, "users", uid), { fullName, country }, { merge: true });
+      Alert.alert("Saved", "Your profile has been updated.");
+    } catch (error) {
+      Alert.alert("Save Failed", error.message);
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const handleLogout = () => {
     Alert.alert("Log Out", "Are you sure you want to log out?", [
@@ -59,12 +84,9 @@ export default function Profile() {
         <View style={styles.avatarSection}>
           <View style={styles.avatarWrapper}>
             <Image
-              source={require("../../assets/images/Profile.png")}
+              source={require("../../assets/images/Profile.jpeg")}
               style={styles.avatar}
             />
-            <TouchableOpacity style={styles.editBadge}>
-              <Ionicons name="camera" size={16} color="#fff" />
-            </TouchableOpacity>
           </View>
           <Text style={styles.name}>{fullName}</Text>
           <Text style={styles.email}>{email}</Text>
@@ -76,14 +98,17 @@ export default function Profile() {
           <AppInput
             label="Email"
             value={email}
-            onChangeText={setEmail}
+            editable={false}
             keyboardType="email-address"
             autoCapitalize="none"
-            editable={false} // email changes need re-authentication in Firebase, so keep this read-only for now
           />
 
           <AppInput label="Country" value={country} onChangeText={setCountry} />
         </View>
+
+        <TouchableOpacity style={styles.saveButton} onPress={handleSave} disabled={saving}>
+          <Text style={styles.saveText}>{saving ? "Saving..." : "Save Changes"}</Text>
+        </TouchableOpacity>
 
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
           <Ionicons name="log-out-outline" size={20} color="#D9534F" />
@@ -108,24 +133,19 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   avatarSection: { alignItems: "center", marginBottom: 32 },
-  avatarWrapper: { position: "relative", marginBottom: 12 },
+  avatarWrapper: { marginBottom: 12 },
   avatar: { width: 100, height: 100, borderRadius: 50, backgroundColor: "#F2F2F2" },
-  editBadge: {
-    position: "absolute",
-    bottom: 0,
-    right: 0,
-    backgroundColor: "#042628",
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 2,
-    borderColor: "#fff",
-  },
   name: { fontFamily: "Poppins_700Bold", fontSize: 17, color: "#042628" },
   email: { fontFamily: "Poppins_400Regular", fontSize: 13, color: "#888", marginTop: 2 },
   form: { marginBottom: 20 },
+  saveButton: {
+    backgroundColor: "#042628",
+    borderRadius: 30,
+    paddingVertical: 16,
+    alignItems: "center",
+    marginTop: 8,
+  },
+  saveText: { fontFamily: "Poppins_700Bold", fontSize: 15, color: "#fff" },
   logoutButton: {
     flexDirection: "row",
     justifyContent: "center",
@@ -135,7 +155,7 @@ const styles = StyleSheet.create({
     borderColor: "#D9534F",
     borderRadius: 30,
     paddingVertical: 16,
-    marginTop: 20,
+    marginTop: 16,
   },
   logoutText: { fontFamily: "Poppins_700Bold", fontSize: 15, color: "#D9534F" },
   homeIndicatorWrapper: {
