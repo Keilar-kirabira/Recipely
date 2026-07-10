@@ -15,7 +15,7 @@ A recipe discovery mobile app built with React Native (Expo Router) and Firebase
 - Poppins font family
 
 ## Demo Video
-[Watch the demo here]
+Watch the demo here:
 https://drive.google.com/file/d/1POFxwW5oED5DM2oVLRJjAkftEq7T0eh1/view?usp=sharing
 
 ## Getting Started
